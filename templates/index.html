@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Encriptación con Máquina de Turing</title>
+</head>
+<body>
+    <h1>Encriptación y Desencriptación con Máquina de Turing</h1>
+    <div>
+        <label>Texto:</label>
+        <input type="text" id="texto" />
+    </div>
+    <div>
+        <label>Desplazamiento:</label>
+        <input type="number" id="desplazamiento" value="3" />
+    </div>
+    <div>
+        <button onclick="encriptar()">Encriptar</button>
+        <button onclick="desencriptar()">Desencriptar</button>
+    </div>
+    <h2>Resultado:</h2>
+    <div id="resultado"></div>
+
+    <script>
+        function encriptar() {
+            const texto = document.getElementById('texto').value;
+            const desplazamiento = parseInt(document.getElementById('desplazamiento').value);
+            
+            fetch('/encriptar', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ texto, desplazamiento })
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('resultado').innerText = `Encriptado: ${data.resultado}`;
+            });
+        }
+
+        function desencriptar() {
+            const texto = document.getElementById('texto').value;
+            const desplazamiento = parseInt(document.getElementById('desplazamiento').value);
+
+            fetch('/desencriptar', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ texto, desplazamiento })
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('resultado').innerText = `Desencriptado: ${data.resultado}`;
+            });
+        }
+    </script>
+</body>
+</html>
